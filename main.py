@@ -312,7 +312,7 @@ def main(args):
         else:
             bloom_filter = f'newsqa.{n}-{n}.bf'
     elif args.datatype == 'booksum':
-        testing_chunks = pd.read_csv(f'eval_data/booksum/booksum_blocklisted.csv', nrows=num_tests)
+        testing_chunks = pd.read_csv(f'eval_data/booksum/booksum_blocklisted_infringement.csv', nrows=num_tests)
         if "tokenized" in args.intervention:
             bloom_filter = f'booksum_tokenized.{6*n}-{6*n}.bf'
         else:

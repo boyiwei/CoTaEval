@@ -65,9 +65,9 @@ def evaluate_f1_scores(predictions, ground_truths):
 def eval_booksum(args, model, tokenizer, num_sampled=200, bloom_filter=None, split='train'):
     print("Evaluating on BookSum...")
     if split == 'train':
-        booksum_dataset = pd.read_csv('eval_data/booksum/booksum_blocklisted.csv')
+        booksum_dataset = pd.read_csv('eval_data/booksum/booksum_blocklisted_utility.csv')
     elif split == 'test':
-        booksum_dataset = pd.read_csv('eval_data/booksum/booksum_indomain.csv')
+        booksum_dataset = pd.read_csv('eval_data/booksum/booksum_indomain_utility.csv')
     prompt_format = "Summarize the article. Summary:"
     predictions, references, documents = [], [], []
     prior_processor = model._get_logits_processor
