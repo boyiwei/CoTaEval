@@ -1,0 +1,5 @@
+{"question": "How many axles does a standard automobile have?", "answer": "B", "choices": {"A": "one", "B": "two", "C": "four", "D": "eight"}, "dataset": "miscellaneous_dev"}
+{"question": "What place is named in the title of the 1979 live album by rock legends Cheap Trick?", "answer": "B", "choices": {"A": "Budapest", "B": "Budokan", "C": "Bhutan", "D": "Britain"}, "dataset": "miscellaneous_dev"}
+{"question": "Who is the shortest man to ever win an NBA slam dunk competition?", "answer": "A", "choices": {"A": "Anthony 'Spud' Webb", "B": "Michael 'Air' Jordan", "C": "Tyrone 'Muggsy' Bogues", "D": "Julius 'Dr J' Erving"}, "dataset": "miscellaneous_dev"}
+{"question": "What is produced during photosynthesis?", "answer": "C", "choices": {"A": "hydrogen", "B": "nylon", "C": "oxygen", "D": "light"}, "dataset": "miscellaneous_dev"}
+{"question": "Which of these songs was a Top 10 hit for the rock band The Police?", "answer": "C", "choices": {"A": "'Radio Ga-Ga'", "B": "'Ob-la-di Ob-la-da'", "C": "'De Do Do Do De Da Da Da'", "D": "'In-a-Gadda-Da-Vida'"}, "dataset": "miscellaneous_dev"}
