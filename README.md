@@ -73,12 +73,12 @@ Important parameters are:
 7. ``--eval_zero_shot``: If true, evaluate the blocklisted and indomain utility
 8. ``--eval_general``: If true, evaluate the MMLU score
 9. ``--intervantion``: Intervention methods. Available options are ``none, memfree_tokenized_consecutive, top_k, sys_prompt-dbrx, sys_prompt-bing, sys_prompt-copilot, sys_prompt-sys_a, sys_prompt-sys_b, sys_prompt_sys_c, cad``. ``memfree_tokenized_consecutive`` corresponds to Memfree Decoding, `sys_prompt-*` corresponds to the system prompt methods, and `*` refers to which type of system prompt are we using. ``sys_a``, ``sys_b``, and ``sys_c`` correpond to the three manually created system prompt in Appendix C.1
-10. ``--std``: The std of the Gaussian noise in Top-$k$ perturbation
+10. ``--std``: The std of the Gaussian noise in Top-k perturbation
 11. ``--n``: The $n$-gram stored in the bloom filter for Memfree decoding
 12. ``--context_aware_decoding_alpha``: The weight of adjustment $\alpha$ in R-CAD.
 13. ``--no_context``: If true, we don't provide the context in the infringement and utility evaluation. For memorization settings.
 
-For example, in RAG setting under news articles domain, if we want to evaluate the infringement risk and utility of top-$k$ perturbation with std$=3$, using Llama-2-7B-chat model, we can use the following code:
+For example, in RAG setting under news articles domain, if we want to evaluate the infringement risk and utility of top-k perturbation with std$=3$, using Llama-2-7B-chat model, we can use the following code:
 ```bash
 python main.py --model_name llama2-7b-chat-hf --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention top_k --std 3   --eval_zero_shot --eval_general --eval_infringement
 ```
@@ -109,7 +109,7 @@ After having the model's answer, we need to run ``python gen_judgment.py --model
 
 # 4. Evaluate the efficiency
 
-The main function for evaluating the efficiency is ``main_efficiency.py``. The key difference between ``main_efficiency.py`` and ``main.py`` is in ``main_efficiency.py`` we set ``max_new_tokens=min_new_toknes=200`` for fair comparison. For example, to test the effiency of top-$k$ perturbation, we can use the following codes:
+The main function for evaluating the efficiency is ``main_efficiency.py``. The key difference between ``main_efficiency.py`` and ``main.py`` is in ``main_efficiency.py`` we set ``max_new_tokens=min_new_toknes=200`` for fair comparison. For example, to test the effiency of top-k perturbation, we can use the following codes:
 ```bash
 python main_efficiency.py --model_name llama2-7b-chat-hf --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention top_k --std 3
 ```
