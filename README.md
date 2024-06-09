@@ -3,6 +3,12 @@
 This repository provides an original implementation of *Evaluating Copyright Takedown Methods for Language Models* by Boyi Wei*, Weijia Shi*, Yangsibo Huang*, Noah A. Smith, Chiyuan Zhang, Luck Zettlemoyer, Kai Li and Peter Henderson.
 
 ## Content
+1. Setup
+2. Evaluate Infringement
+3. Evaluate Utility
+4. Evaluate Efficiency
+5. Results Anlysis
+6. Cite
 
 ## Setup
 
@@ -24,9 +30,9 @@ pip install -e .
 ### Quick Start
 The main entry for infringement evaluation is ``main.py``.
 
-For example, in RAG setting under news articles domain, if we want to evaluate the infringement risk and utility of top-k perturbation with std=3, using Llama-2-7B-chat model, we can use the following command:
+For example, in RAG setting under news articles domain, if we want to evaluate the infringement risk and utility in the vanilla case, using Llama-2-7B-chat model, we can use the following command:
 ```bash
-python main.py --model_name llama2-7b-chat-hf --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention top_k --std 3   --eval_zero_shot --eval_general --eval_infringement
+python main.py --model_name llama2-7b-chat-hf --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention none --eval_zero_shot --eval_general --eval_infringement
 ```
 ### Argument Details
 Important parameters are:
@@ -36,10 +42,13 @@ Important parameters are:
 4. ``--context_len``: The length of hint. We set 200 as default.
 5. ``--completion_len``: The maximum number of generated tokens. We set 200 as default
 6. ``--eval_infringement``: If true, perform infrigement test.
-9. ``--intervention``: Intervention methods. Available options are ``none, memfree_tokenized_consecutive, top_k, sys_prompt-dbrx, sys_prompt-bing, sys_prompt-copilot, sys_prompt-sys_a, sys_prompt-sys_b, sys_prompt_sys_c, cad``. ``memfree_tokenized_consecutive`` corresponds to Memfree Decoding, `sys_prompt-*` corresponds to the system prompt methods, and `*` refers to which type of system prompt are we using. ``sys_a``, ``sys_b``, and ``sys_c`` correpond to the three manually created system prompt in Appendix C.1
-13. ``--no_context``: If true, we don't provide the context in the infringement and utility evaluation. For memorization settings.
-14. 
+7.  ``--intervention``: Intervention methods.
+8.   ``--no_context``: If true, we don't provide the context in the infringement and utility evaluation. For memorization settings.
 ### Specific Takedown Methods Implementation
+
+#### System Prompt
+
+Whe evaluating system prompt, we need to specify the which system prompt we are evaluating in ``--intervention``. Available options are: ``sys_prompt-dbrx, sys_prompt-bing, sys_prompt-copilot, sys_prompt-sys_a, sys_prompt-sys_b, sys_prompt_sys_c``. Here ``sys_a``, ``sys_b``, and ``sys_c`` correpond to the three manually created system prompt in Appendix C.1
 #### MemFree
 When evaluating Memfree, please make sure that the redis has been started. For example, if we want to evaluate Memfree with $n$-gram size equals 6, we can use the following code:
 ```bash
@@ -49,29 +58,33 @@ python easy_redis.py --start-from-dir your/path/to/bloom_filter/${datatype}_toke
 cd ..
 python main.py --model llama2-7b-chat-hf --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention memfree_tokenized_consecutive --n 6 --eval_zero_shot --eval_general --eval_infringement
 ```
-For details on how to create the bloom filter using Data Portraits, please refer to 
+For details on how to create the bloom filter using Data Portraits, please refer to [memfree_usage.md](https://github.com/boyiwei/CoTaEval/blob/main/data-portraits/memfree_usage.md)
 
-1.  ``--n``: The $n$-gram stored in the bloom filter for Memfree decoding
+When evaluating Memfree, we need to specify ``--intervention`` as ``mem_free_tokenized_consecutive``, and specitfy ``--n``, which is the size of $n$-gram stored in the bloom filter.
 #### Top-K perturbation
-
-1.  ``--std``: The std of the Gaussian noise in Top-k perturbation
+When evaluating top-k perturbation, we need to specify ``--intervention`` as ``top_k``, and specity ``--std``, which is the standard deviation of the Gaussian noise added to the logits distribution.
 
 #### R-CAD
-12. ``--context_aware_decoding_alpha``: The weight of adjustment $\alpha$ in R-CAD.
 
+When evaluating R-CAD, we need to specify ``--intervenion`` as ``cad``, and specify the value of ``--context_aware_decoding_alpha``, which is the weight of adjustment $\alpha$ in R-CAD.
 
 #### Unlearning
 
-For unlearning methods, we use the framework provided in [TOFU](https://github.com/locuslab/tofu). When perform unlearning, you need to use our dataset as forget set and retain set. After having the unlearned the model, we can evaluate their performence following the procedure above, with ``--intervention none``.
+For unlearning methods, we use the framework provided in [TOFU](https://github.com/locuslab/tofu). When perform unlearning, we need to use our dataset as [forget set](https://huggingface.co/datasets/boyiwei/CoTaEval/blob/main/newsqa_forget_set.json) and [retain set](https://huggingface.co/datasets/boyiwei/CoTaEval/blob/main/newsqa_retain_set.json). After having the unlearned the model, we can evaluate their performence following the procedure above, with ``--intervention none``.
 
 
 ### Adding custom takedown methods
 
+Besides the takedown methods provided in the code, you can also add your custom takedown methods and evaluate their performance. To new method, you need to add new code block starting at [here](https://github.com/boyiwei/CoTaEval/blob/main/main.py#L87), where you can add a new if branch with the implementation of the new takedown methods.
+
 ## Evaluate Utility
+
+### Evaluate Blocklisted Utility, In-Domain Utility, and MMLU
 
 7. ``--eval_zero_shot``: If true, evaluate the blocklisted and indomain utility
 8. ``--eval_general``: If true, evaluate the MMLU score
-   
+
+### Evaluate MT-Bench
 We use the [FastChat](https://github.com/lm-sys/FastChat) to compute the MT-bench score. The code is in ``eval/FastChat_new``. To run MT-Bench, use the following code
 ``bash
 cd eval/FastChat_new/fastchat/llm_judge
