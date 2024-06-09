@@ -2,6 +2,9 @@
 
 This repository provides an original implementation of *Evaluating Copyright Takedown Methods for Language Models* by Boyi Wei*, Weijia Shi*, Yangsibo Huang*, Noah A. Smith, Chiyuan Zhang, Luck Zettlemoyer, Kai Li and Peter Henderson.
 
+<embed src="https://github.com/boyiwei/CoTaEval/blob/main/assets/main.pdf" width="600" height="500" type="application/pdf">
+
+
 ## Content
 1. [Setup](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#setup)
 2. [Evaluate Infringement](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#evaluate-infringement)
