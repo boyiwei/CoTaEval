@@ -2,7 +2,11 @@
 
 This repository provides an original implementation of *Evaluating Copyright Takedown Methods for Language Models* by Boyi Wei*, Weijia Shi*, Yangsibo Huang*, Noah A. Smith, Chiyuan Zhang, Luck Zettlemoyer, Kai Li and Peter Henderson.
 
+[website](https://cotaeval.github.io/) | [dataset](https://huggingface.co/datasets/boyiwei/CoTaEval) | paper (Coming soon) | leaderboard (Coming soon)
+
 <img alt="image" src="assets/main.png">
+
+**CoTaEval** is a benchmark that can evaluate the feasibility and the side effect of the copyright takedown methods of language models. It can evalaute the effectiveness of copyright takedown, their impact on model's blocklisted/in-domain/general utility, and the impact of efficiency, providing an comprehensive evaluation from different perspective.
 
 
 ## Content
