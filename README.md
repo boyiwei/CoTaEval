@@ -1,12 +1,12 @@
 # Copyright Takedown Evaluation (CoTaEval)
 
-This repository provides an original implementation of *Evaluating Copyright Takedown Methods for Language Models* by Boyi Wei*, Weijia Shi*, Yangsibo Huang*, Noah A. Smith, Chiyuan Zhang, Luck Zettlemoyer, Kai Li and Peter Henderson.
+This repository provides an original implementation of *Evaluating Copyright Takedown Methods for Language Models* by Boyi Wei*, Weijia Shi*, Yangsibo Huang*, Noah A. Smith, Chiyuan Zhang, Luck Zettlemoyer, Kai Li, and Peter Henderson.
 
 [website](https://cotaeval.github.io/) | [dataset](https://huggingface.co/datasets/boyiwei/CoTaEval) | paper (Coming soon) | leaderboard (Coming soon)
 
 <img alt="image" src="assets/main.png">
 
-**CoTaEval** is a benchmark that can evaluate the feasibility and the side effect of the copyright takedown methods of language models. It can evalaute the effectiveness of copyright takedown, their impact on model's blocklisted/in-domain/general utility, and the impact of efficiency, providing an comprehensive evaluation from different perspective.
+**CoTaEval** is a benchmark that can evaluate the feasibility and the side effects of the copyright takedown methods of language models. It can evalaute the effectiveness of copyright takedown, their impact on the model's blocklisted/in-domain/general utility, and the impact of efficiency, providing a comprehensive evaluation from different perspectives.
 
 
 ## Content
@@ -19,7 +19,7 @@ This repository provides an original implementation of *Evaluating Copyright Tak
 
 ## Setup
 
-You can use the following instruction to create conda environment
+You can use the following instructions to create a conda environment
 ```bash
 conda env create -f environment.yml
 ```
@@ -37,27 +37,27 @@ pip install -e .
 ### Quick Start
 The main entry for infringement evaluation is ``main.py``.
 
-For example, in RAG setting under news articles domain, if we want to evaluate the infringement risk and utility in the vanilla case, using Llama-2-7B-chat model, we can use the following command:
+For example, in the RAG setting under the news articles domain, if we want to evaluate the infringement risk and utility in the vanilla case, using Llama-2-7B-chat model, we can use the following command:
 ```bash
 python main.py --model_name llama2-7b-chat-hf --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention none --eval_zero_shot --eval_general --eval_infringement
 ```
 ### Argument Details
 Important parameters are:
 1. ``--model_name``: To specify the model for evaluation. The model name and the path for loading the model can be specified via ``modeltype2path``: Dictionary in ``main.py``
-2. ``--datatype``: To specify the evaluation domain. Available options are ``newsqa`` (for news articles domain) and ``booksum`` (for books domain).
-3. ``--num_test``: Number of examples to test for infringement evaluation. For news articles, we set 1000 as default. For books, we set 500 as default.
-4. ``--context_len``: The length of hint. We set 200 as default.
-5. ``--completion_len``: The maximum number of generated tokens. We set 200 as default
-6. ``--eval_infringement``: If true, perform infrigement test.
+2. ``--datatype``: To specify the evaluation domain. Available options are ``newsqa`` (for the news articles domain) and ``booksum`` (for the books domain).
+3. ``--num_test``: Number of examples to test for infringement evaluation. For news articles, we set 1000 as default. For books, we set 500 as the default.
+4. ``--context_len``: The length of the hint. We set 200 as the default.
+5. ``--completion_len``: The maximum number of generated tokens. We set 200 as the default.
+6. ``--eval_infringement``: If true, perform infringement test.
 7.  ``--intervention``: Intervention methods.
 8.   ``--no_context``: If true, we don't provide the context in the infringement and utility evaluation. For memorization settings.
-### Specific Takedown Methods Implementation
+### Specific Takedown Methods Evaluation
 
 #### System Prompt
 
-Whe evaluating system prompt, we need to specify the which system prompt we are evaluating in ``--intervention``. Available options are: ``sys_prompt-dbrx, sys_prompt-bing, sys_prompt-copilot, sys_prompt-sys_a, sys_prompt-sys_b, sys_prompt_sys_c``. Here ``sys_a``, ``sys_b``, and ``sys_c`` correpond to the three manually created system prompt in Appendix C.1
+When evaluating system prompt, we need to specify which system prompt we are evaluating in ``--intervention``. Available options are: ``sys_prompt-dbrx, sys_prompt-bing, sys_prompt-copilot, sys_prompt-sys_a, sys_prompt-sys_b, sys_prompt_sys_c``. Here ``sys_a``, ``sys_b``, and ``sys_c`` correspond to the three manually created system prompts in Appendix C.1.
 #### MemFree
-When evaluating Memfree, please make sure that the redis has been started. For example, if we want to evaluate Memfree with $n$-gram size equals 6, we can use the following code:
+When evaluating Memfree, please make sure that the Redis has been started. For example, if we want to evaluate Memfree with $n$-gram size equals 6, we can use the following code:
 ```bash
 cd data-portraits
 python easy_redis.py --shutdown
@@ -69,26 +69,26 @@ For details on how to create the bloom filter using Data Portraits, please refer
 
 When evaluating Memfree, we need to specify ``--intervention`` as ``mem_free_tokenized_consecutive``, and specitfy ``--n``, which is the size of $n$-gram stored in the bloom filter.
 #### Top-K perturbation
-When evaluating top-k perturbation, we need to specify ``--intervention`` as ``top_k``, and specity ``--std``, which is the standard deviation of the Gaussian noise added to the logits distribution.
+When evaluating top-k perturbation, we need to specify ``--intervention`` as ``top_k``, and specify ``--std``, which is the standard deviation of the Gaussian noise added to the logits distribution.
 
 #### R-CAD
 
-When evaluating R-CAD, we need to specify ``--intervenion`` as ``cad``, and specify the value of ``--context_aware_decoding_alpha``, which is the weight of adjustment $\alpha$ in R-CAD.
+When evaluating R-CAD, we need to specify ``--intervention`` as ``cad``, and specify the value of ``--context_aware_decoding_alpha``, which is the weight of adjustment $\alpha$ in R-CAD.
 
 #### Unlearning
 
-For unlearning methods, we use the framework provided in [TOFU](https://github.com/locuslab/tofu). When perform unlearning, we need to use our dataset as [forget set](https://huggingface.co/datasets/boyiwei/CoTaEval/blob/main/newsqa_forget_set.json) and [retain set](https://huggingface.co/datasets/boyiwei/CoTaEval/blob/main/newsqa_retain_set.json). After having the unlearned the model, we can evaluate their performence following the procedure above, with ``--intervention none``.
+For unlearning methods, we use the framework provided in [TOFU](https://github.com/locuslab/tofu). When perform unlearning, we need to use our dataset as [forget set](https://huggingface.co/datasets/boyiwei/CoTaEval/blob/main/newsqa_forget_set.json) and [retain set](https://huggingface.co/datasets/boyiwei/CoTaEval/blob/main/newsqa_retain_set.json). After having the unlearned the model, we can evaluate their performance following the procedure above, with ``--intervention none``.
 
 
 ### Adding custom takedown methods
 
-Besides the takedown methods provided in the code, you can also add your custom takedown methods and evaluate their performance. To new method, you need to add new code block starting at [here](https://github.com/boyiwei/CoTaEval/blob/main/main.py#L87), where you can add a new if branch with the implementation of the new takedown methods.
+Besides the takedown methods provided in the code, you can also add your custom takedown methods and evaluate their performance. To new method, you need to add a new code block starting here](https://github.com/boyiwei/CoTaEval/blob/main/main.py#L87), where you can add a new if branch with the implementation of the new takedown methods.
 
 ## Evaluate Utility
 
 ### Evaluate Blocklisted Utility, In-Domain Utility, and MMLU
 
-7. ``--eval_zero_shot``: If true, evaluate the blocklisted and indomain utility
+7. ``--eval_zero_shot``: If true, evaluate the blocklisted and in-domain utility
 8. ``--eval_general``: If true, evaluate the MMLU score
 
 ### Evaluate MT-Bench
@@ -105,7 +105,7 @@ After having the model's answer, we need to run ``python gen_judgment.py --model
 
 ## Evaluate efficiency
 
-The main function for evaluating the efficiency is ``main_efficiency.py``. The key difference between ``main_efficiency.py`` and ``main.py`` is in ``main_efficiency.py`` we set ``max_new_tokens=min_new_toknes=200`` for fair comparison. For example, to test the effiency of top-k perturbation, we can use the following codes:
+The main function for evaluating the efficiency is ``main_efficiency.py``. The key difference between ``main_efficiency.py`` and ``main.py`` is in ``main_efficiency.py`` we set ``max_new_tokens=min_new_toknes=200`` for fair comparison. For example, to test the efficiency of top-k perturbation, we can use the following codes:
 ```bash
 python main_efficiency.py --model_name llama2-7b-chat-hf --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention top_k --std 3
 ```
@@ -117,17 +117,17 @@ To facilitate the win rate computation, we need to reformat the output file, and
 ```bash
 python process.py --input_dir res/output_res --output_dir res/output_res_processed --file_name newsqa_low_ppl_comp_llama2-7b-chat-hf_context_len_200_completion_len_200_intervention_none_no_context_False.csv
 ```
-It output a ``.csv`` file to ``res/output_res_processed``, which contains all the 8 metrics for infringement evaluation. We also need to notice that sometimes there are few examples that will lead the model output nothing in the vanilla case, we call them as "invalid ids". For fair comparison purposes, we also need to zero out all the "invalid ids" for different takedown methods under the same model and domain.
+It outputs a ``.csv`` file to ``res/output_res_processed``, which contains all 8 metrics for infringement evaluation. We also need to notice that sometimes there are a few examples that will lead the model to output nothing in the vanilla case, we call them "invalid ids". For fair comparison purposes, we also need to zero out all the "invalid ids" for different takedown methods under the same model and domain.
 #### Compute the win rate
 
-After having the processed `.csv` file, we can use ``winrate_compute.py`` to compute the winrate for different intervention methods. For example, if we want to compute the win rate for different takedown methods for Llama2-7B-chat model, under news articles domain and RAG scenario, we can use the following command:
+After having the processed `.csv` file, we can use ``winrate_compute.py`` to compute the winrate for different intervention methods. For example, if we want to compute the win rate for different takedown methods for Llama2-7B-chat model, under the news articles domain and RAG scenario, we can use the following command:
 ```bash
 python winrate_compute.py --data_type news --model_name llama2_7b_chat --scenario rag
 ```
-It will output ``win_rate_memorization.csv``, with per-metric and average winrate for each takedown methods inside it.
+It will output ``win_rate_memorization.csv``, with per-metric and average win rate for each takedown method inside it.
 
 ### Utility and Efficiency analysis
-The data of utility and efficiency will be logged in ``res/utility_res``, where you can see the F1/ROUGE score, MMLU score, tokens/sec in ``log_*.txt``, here ``*`` refers to the model name.
+The data of utility and efficiency will be logged in ``res/utility_res``, where you can see the F1/ROUGE score, MMLU score, and tokens/sec in ``log_*.txt``, here ``*`` refers to the model name.
 
 
 ## Citing
@@ -136,5 +136,3 @@ If you find our work useful, please cite our work 😊
 
 
 
-
-   
