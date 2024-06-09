@@ -8,7 +8,7 @@ This repository provides an original implementation of *Evaluating Copyright Tak
 3. [Evaluate Utility](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#evaluate-utility)
 4. [Evaluate Efficiency](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#evaluate-efficiency)
 5. [Result Anlysis](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#result-analysis)
-6. [Cite](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#cite)
+6. [Citing](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#cite)
 
 ## Setup
 
@@ -123,7 +123,7 @@ It will output ``win_rate_memorization.csv``, with per-metric and average winrat
 The data of utility and efficiency will be logged in ``res/utility_res``, where you can see the F1/ROUGE score, MMLU score, tokens/sec in ``log_*.txt``, here ``*`` refers to the model name.
 
 
-## Cite
+## Citing
 
 If you find our work useful, please cite our work 😊
 
