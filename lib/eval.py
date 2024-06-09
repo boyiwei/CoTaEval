@@ -9,6 +9,7 @@ from tqdm import tqdm
 import dataportraits
 from lib.decoding_intervention import DataPortraitsLogitsProcessor
 import sys
+import json
 sys.path.append("./lib")
 from utils_cad import *
 from .prompt_utils import apply_prompt_template
