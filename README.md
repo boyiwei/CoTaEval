@@ -35,12 +35,23 @@ pip install -e .
 ## Evaluate Infringement
 
 ### Quick Start
-The main entry for infringement evaluation is ``main.py``.
+The main entry for infringement evaluation is ``main.py``. After running ``main.py``, it will output a ``.csv`` file in ``res/output_res``, which contains the raw output of the model.
 
+#### Evaluate Infringement in the RAG setting
 For example, in the RAG setting under the news articles domain, if we want to evaluate the infringement risk and utility in the vanilla case, using Llama-2-7B-chat model, we can use the following command:
 ```bash
-python main.py --model_name llama2-7b-chat-hf --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention none --eval_zero_shot --eval_general --eval_infringement
+python main.py --model_name llama2-7b-chat-hf --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention none --eval_infringement
 ```
+
+#### Evaluate Infringement in the memorization setting
+
+For example, in the memorization setting under the news articles domain, if we want to evaluate the infringement risk and utility in the vanilla case, using Llama-2-7B-chat model fine-tuned on news articles, we can use the following command:
+
+```bash
+python main.py --model_name llama2-7b-chat-hf_newsqa --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention none --eval_infringement --no_context
+```
+Here ``llama2-7b-chat-hf_newsqa`` refers to Llama2-7b-chat-hf model fine-tuned on news articles in NewsQA dataset. The checkpoint of this model is available [here](https://huggingface.co/swj0419/llama2-7b_chat_newsqa). In the memorization setting, we don't provide context during the evluation. Therefore, we need to set ``--no_context`` as True.
+
 ### Argument Details
 Important parameters are:
 1. ``--model_name``: To specify the model for evaluation. The model name and the path for loading the model can be specified via ``modeltype2path``: Dictionary in ``main.py``
@@ -95,6 +106,12 @@ The main entry for evaluating the blocklisted utility, in-domain utility and MML
 
 When ``--no_context`` is true, the context is not provided in the utility evaluation as well.
 
+For example, if we want to evaluate the blocklisted utility, in-domain utility, and MMLU on Llama2-7b-chat-hf model, we can use the following command:
+
+```bash
+python main.py --model_name llama2-7b-chat-hf  --datatype newsqa --intervention none --eval_zero_shot --eval_general
+```
+
 ### Evaluate MT-Bench
 We use the [FastChat](https://github.com/lm-sys/FastChat) to compute the MT-bench score. The code is in ``eval/FastChat_new``. To run MT-Bench, use the following command:
 ```bash
@@ -114,9 +131,9 @@ The main function for evaluating the efficiency is ``main_efficiency.py``. The k
 python main_efficiency.py --model_name llama2-7b-chat-hf --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention top_k --std 3
 ```
 
-## Result Analysis
-### Infringement analysis
-#### Compute all the metrics
+## Metrics Computation
+### Compute infringement metrics
+#### Compute all eight metrics
 To facilitate the win rate computation, we need to reformat the output file, and compute all the 8 metrics (ROUGE-1, ROUGE-L, LCS(character), LCS(word), ACS(word), Levenshitein Distance, Semantic Similarity, MinHash Similarity) for each example. We use ``process.py`` to do so. After running ``main.py``, it will output a ``.csv`` file in ``res/output_res``, which contains the raw output of the infringement test. After having the file in ``res/output_res``, we can process the raw output to another ``.csv`` file with all metrics. For example, if we have a raw output file in ``res/output_res/newsqa_low_ppl_comp_llama2-7b-chat-hf_context_len_200_completion_len_200_intervention_none_no_context_False.csv``, we can process it by using:
 ```bash
 python process.py --input_dir res/output_res --output_dir res/output_res_processed --file_name newsqa_low_ppl_comp_llama2-7b-chat-hf_context_len_200_completion_len_200_intervention_none_no_context_False.csv
@@ -130,7 +147,7 @@ python winrate_compute.py --data_type news --model_name llama2_7b_chat --scenari
 ```
 It will output ``win_rate_memorization.csv``, with per-metric and average win rate for each takedown method inside it.
 
-### Utility and Efficiency analysis
+### Compute utility and efficiency metrics
 The data of utility and efficiency will be logged in ``res/utility_res``, where you can see the F1/ROUGE score, MMLU score, and tokens/sec in ``log_*.txt``, here ``*`` refers to the model name.
 
 
