@@ -1,16 +1,9 @@
 import os
-import sys
-import time
-import json
-import pandas as pd
 from tqdm import tqdm
 from collections import OrderedDict
 import numpy as np
-# from ipdb import set_trace as bp
 
 import torch
-
-import torchmetrics
 
 class Evaluator:
     def __init__(self, metrics=None):
@@ -126,46 +119,6 @@ def calculate_rouge(predictions, references):
         print(f"{k} -> {v/len(predictions)*100:.2f}")
     return result_dict
 
-def load_book(dataset):
-    input_dir = f"/home/bw1822/decoding-copyright/eval_data/ppl_books_llama2-7b-chat-hf.csv"
-    train, validation, test = [], [], []
-    df = pd.read_csv(input_dir)
-    # 
-    nan_count = 0
-    for i, row in df.iterrows():
-        # bp()
-        # check nan
-        if pd.isna(row["snippet"]):
-            nan_count += 1
-            # bp()
-            continue
-        
-        train.append([row["snippet"], row["prompt_autocomplete"], row["gt_autocomplete"]])
-    print("nan_count: ", nan_count)
-    validation = train
-    test = train
-    return train, validation, test
-
-
-def load_dataset_summary(dataset):
-    input_dir = f"/fsx-onellm/swj0419/copyright/context-aware-decoding-qfs/data/{dataset}/"
-    train, validation, test = [], [], []
-    with open(os.path.join(input_dir, "train.jsonl"), "r") as fin:
-        json_list = list(fin)
-        for i, row in enumerate(json_list):
-            row = json.loads(row)
-            train.append([row["document"], row["summary"]])
-    with open(os.path.join(input_dir, "validation.jsonl"), "r") as fin:
-        json_list = list(fin)
-        for i, row in enumerate(json_list):
-            row = json.loads(row)
-            validation.append([row["document"], row["summary"]])
-    with open(os.path.join(input_dir, "test.jsonl"), "r") as fin:
-        json_list = list(fin)
-        for i, row in enumerate(json_list):
-            row = json.loads(row)
-            test.append([row["document"], row["summary"]])
-    return train, validation, test
 
 def load_dataset_qfs(dataset):
     input_dir = f"/uusoc/exports/scratch/brutusxu/decoding/datasets/{dataset}/"
@@ -183,14 +136,6 @@ def load_dataset_qfs(dataset):
             query, document, summary = line.strip().split("\t")
             test.append([document, query, summary])
     return train, validation, test
-
-def load_dataset_cad(dataset):
-    if dataset in ["dbpedia_processed", "pubmedqa_processed"]:
-        return load_dataset_qfs(dataset)
-    elif dataset in ["cnn_dailymail", "xsum"]:
-        return load_dataset_summary(dataset)
-    elif dataset in ["book"]:
-        return load_book(dataset)
 
 
 def template_input_decoder(row, dataset):

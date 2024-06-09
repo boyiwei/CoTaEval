@@ -1,22 +1,11 @@
 import argparse
 from transformers import AutoTokenizer, AutoModelForCausalLM
-import pandas
-from ipdb import set_trace as bp
-from datasets import load_dataset, load_from_disk
-from rouge_score import rouge_scorer, scoring
-import evaluate
-import sys
-# sys.path.append("/fsx-onellm/swj0419/copyright/decoding-copyright/cad/transformers_cad/src")
 from transformers import GenerationConfig
 import torch
-from sentence_transformers import SentenceTransformer, util
 import tqdm
 import numpy as np
 import pandas as pd
 import os
-import lib.utils as utils
-# from utils import *
-from lib.eval import eval_newsqa, eval_booksum, eval_mmlu
 from lib.decoding_intervention import DataPortraitsLogitsProcessor, TopKPerturbationLogitsProcessor, DataPortraitsSkipLogitsProcessor
 import timeit
 import dataportraits
@@ -26,24 +15,23 @@ from lib.prompt_utils import apply_prompt_template
 
 
 modeltype2path = {
-    'llama2-7b-hf': "/home/samyakg/scratch/nlp_checkpoints/llama-2/Llama-2-7b-hf",
-    'llama2-7b-chat-hf': "/home/samyakg/scratch/nlp_checkpoints/llama-2/Llama-2-7b-chat-hf",
+    'llama2-7b-hf': "meta-llama/Llama-2-7b-hf",
+    'llama2-7b-chat-hf': "meta-llama/Llama-2-7b-chat-hf",
+    'llama2-70b-chat-hf': "meta-llama/Llama-2-70b-chat-hf",
+    'llama3-8b-chat-hf': "meta-llama/Meta-Llama-3-8B-Instruct",
+    'dbrx': "databricks/dbrx-instruct",
 }
 
 
 def load_models(model_name):
     if 'llama2' in model_name:
-        if not os.path.exists("/fsx-onellm"):
-            tokenizer = AutoTokenizer.from_pretrained("/home/samyakg/scratch/nlp_checkpoints/llama-2/Llama-2-7b-chat-hf", use_fast=False)
-        else:
-            tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf", use_fast=False)
+        tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf", use_fast=False)
         if model_name in ['llama2-70b-chat-hf']:
             model = AutoModelForCausalLM.from_pretrained(
             modeltype2path[model_name],
             torch_dtype=torch.bfloat16,
             low_cpu_mem_usage=True,
             device_map="auto",
-            # load_in_8bit=True,
         )
         else:
             model = AutoModelForCausalLM.from_pretrained(
@@ -58,7 +46,7 @@ def load_models(model_name):
             torch_dtype=torch.bfloat16,
             low_cpu_mem_usage=True,
             device_map="auto")
-        tokenizer = AutoTokenizer.from_pretrained("/scratch/gpfs/bw1822/nlp_checkpoints/llama-3/Meta-Llama-3-8B-Instruct", use_fast=False)
+        tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct", use_fast=False)
 
     elif model_name in ['dbrx']:
         model = AutoModelForCausalLM.from_pretrained(modeltype2path['dbrx'], device_map="auto", torch_dtype=torch.bfloat16, trust_remote_code=True, token="hf_YOUR_TOKEN")

@@ -25,16 +25,16 @@ def main(args):
         bf_name = f'{datatype}_tokenized.{6*width}-{6*stride}.bf'
     else:
         bf_name = f'{datatype}.{width}-{stride}.bf'
-    tokenizer_path = '/home/samyakg/scratch/nlp_checkpoints/llama-2/Llama-2-7b-chat-hf'
+    tokenizer_path = "meta-llama/Llama-2-7b-chat-hf"
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_path, use_fast=False)
     r = datasketch.RedisBFSketch(host='localhost', port=8899, key=bf_name, width=int(n))
     r.bf_client.create(bf_name, 0.001, 1500000000) # bfname, error_rate, max_entries
 
 
     if datatype == 'newsqa':
-        path = '/home/bw1822/decoding-copyright/eval_data/newsqa/ppl_newsqa_llama2-7b-hf_1000.csv'
+        path = '../eval_data/newsqa/newsqa_blocklisted_infringement.csv'
     elif datatype == 'booksum':
-        path = '/home/bw1822/decoding-copyright/eval_data/booksum/ppl_booksum_llama2-7b-hf_500.csv' 
+        path = '../eval_data/booksum/booksum_blocklisted_infringement.csv' 
 
 
     # List of lyrics
@@ -67,14 +67,14 @@ def main(args):
 
     # check whether the path exists
     if args.tokenized:
-        if not os.path.exists(f'/scratch/gpfs/bw1822/bloom_filters/{datatype}_tokenized/{n}'):
-            os.makedirs(f'/scratch/gpfs/bw1822/bloom_filters/{datatype}_tokenized/{n}')
-        path = f'/scratch/gpfs/bw1822/bloom_filters/{datatype}_tokenized/{n}/{bf_name}'
+        if not os.path.exists(f'/your/path/bloom_filters/{datatype}_tokenized/{n}'):
+            os.makedirs(f'/your/path/bloom_filters/{datatype}_tokenized/{n}')
+        path = f'/your/path/bloom_filters/{datatype}_tokenized/{n}/{bf_name}'
         r.to_file(path=path, verbose=False) #verbose: Show the progress.
     else:
-        if not os.path.exists(f'/scratch/gpfs/bw1822/bloom_filters/{datatype}/{n}'):
-            os.makedirs(f'/scratch/gpfs/bw1822/bloom_filters/{datatype}/{n}')
-        path = f'/scratch/gpfs/bw1822/bloom_filters/{datatype}/{n}/{bf_name}'
+        if not os.path.exists(f'/your/path/bloom_filters/{datatype}/{n}'):
+            os.makedirs(f'/your/path/bloom_filters/{datatype}/{n}')
+        path = f'/your/path/bloom_filters/{datatype}/{n}/{bf_name}'
         r.to_file(path=path, verbose=False) #verbose: Show the progress.
 
 

@@ -21,21 +21,17 @@ from lib.prompt_utils import apply_prompt_template
 
 
 modeltype2path = {
-    'llama2-7b-hf': "/home/samyakg/scratch/nlp_checkpoints/llama-2/Llama-2-7b-hf",
-    'llama2-7b-chat-hf': "/home/samyakg/scratch/nlp_checkpoints/llama-2/Llama-2-7b-chat-hf",
-    'llama2-70b-chat-hf': "/home/samyakg/scratch/nlp_checkpoints/llama-2/Llama-2-70b-chat-hf",
-    'llama3-8b-chat-hf': "/scratch/gpfs/bw1822/nlp_checkpoints/llama-3/Meta-Llama-3-8B-Instruct",
-    'dbrx': "/scratch/gpfs/bw1822/nlp_checkpoints/dbrx/dbrx-instruct",
-    'mistral': "/scratch/gpfs/bw1822/nlp_checkpoints/mistral/Mistral-7B-Instruct-v0.2",
+    'llama2-7b-hf': "meta-llama/Llama-2-7b-hf",
+    'llama2-7b-chat-hf': "meta-llama/Llama-2-7b-chat-hf",
+    'llama2-70b-chat-hf': "meta-llama/Llama-2-70b-chat-hf",
+    'llama3-8b-chat-hf': "meta-llama/Meta-Llama-3-8B-Instruct",
+    'dbrx': "databricks/dbrx-instruct",
 }
 
 
 def load_models(model_name):
     if 'llama2' in model_name:
-        if not os.path.exists("/fsx-onellm"):
-            tokenizer = AutoTokenizer.from_pretrained("/home/samyakg/scratch/nlp_checkpoints/llama-2/Llama-2-7b-chat-hf", use_fast=False)
-        else:
-            tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf", use_fast=False)
+        tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf", use_fast=False)
         if model_name in ['llama2-7b-chat-hf', 'llama2-70b-chat-hf', 'llama2-13b-chat-hf']:
             model = AutoModelForCausalLM.from_pretrained(
             modeltype2path[model_name],
@@ -56,7 +52,7 @@ def load_models(model_name):
             torch_dtype=torch.bfloat16,
             low_cpu_mem_usage=True,
             device_map="auto")
-        tokenizer = AutoTokenizer.from_pretrained("/scratch/gpfs/bw1822/nlp_checkpoints/llama-3/Meta-Llama-3-8B-Instruct", use_fast=False)
+        tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct", use_fast=False)
 
     elif model_name in ['dbrx']:
         model = AutoModelForCausalLM.from_pretrained(modeltype2path['dbrx'], device_map="auto", torch_dtype=torch.bfloat16, trust_remote_code=True, token="hf_YOUR_TOKEN")
