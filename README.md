@@ -3,12 +3,12 @@
 This repository provides an original implementation of *Evaluating Copyright Takedown Methods for Language Models* by Boyi Wei*, Weijia Shi*, Yangsibo Huang*, Noah A. Smith, Chiyuan Zhang, Luck Zettlemoyer, Kai Li and Peter Henderson.
 
 ## Content
-1. Setup
-2. Evaluate Infringement
-3. Evaluate Utility
-4. Evaluate Efficiency
-5. Results Anlysis
-6. Cite
+1. [Setup](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#setup)
+2. [Evaluate Infringement](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#evaluate-infringement)
+3. [Evaluate Utility](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#evaluate-utility)
+4. [Evaluate Efficiency](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#evaluate-efficiency)
+5. [Result Anlysis](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#result-analysis)
+6. [Cite](https://github.com/boyiwei/CoTaEval?tab=readme-ov-file#cite)
 
 ## Setup
 
@@ -104,7 +104,7 @@ python main_efficiency.py --model_name llama2-7b-chat-hf --num_test 1000 --conte
 ```
 
 ## Result Analysis
-### Infringenet analysis
+### Infringement analysis
 #### Compute all the metrics
 To facilitate the win rate computation, we need to reformat the output file, and compute all the 8 metrics (ROUGE-1, ROUGE-L, LCS(character), LCS(word), ACS(word), Levenshitein Distance, Semantic Similarity, MinHash Similarity) for each example. We use ``process.py`` to do so. After running ``main.py``, it will output a ``.csv`` file in ``res/output_res``, which contains the raw output of the infringement test. After having the file in ``res/output_res``, we can process the raw output to another ``.csv`` file with all metrics. For example, if we have a raw output file in ``res/output_res/newsqa_low_ppl_comp_llama2-7b-chat-hf_context_len_200_completion_len_200_intervention_none_no_context_False.csv``, we can process it by using:
 ```bash
@@ -121,6 +121,11 @@ It will output ``win_rate_memorization.csv``, with per-metric and average winrat
 
 ### Utility and Efficiency analysis
 The data of utility and efficiency will be logged in ``res/utility_res``, where you can see the F1/ROUGE score, MMLU score, tokens/sec in ``log_*.txt``, here ``*`` refers to the model name.
+
+
+## Cite
+
+If you find our work useful, please cite our work 😊
 
 
 
