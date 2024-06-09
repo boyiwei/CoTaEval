@@ -57,7 +57,7 @@ Important parameters are:
 
 When evaluating system prompt, we need to specify which system prompt we are evaluating in ``--intervention``. Available options are: ``sys_prompt-dbrx, sys_prompt-bing, sys_prompt-copilot, sys_prompt-sys_a, sys_prompt-sys_b, sys_prompt_sys_c``. Here ``sys_a``, ``sys_b``, and ``sys_c`` correspond to the three manually created system prompts in Appendix C.1.
 #### MemFree
-When evaluating Memfree, please make sure that the Redis has been started. For example, if we want to evaluate Memfree with $n$-gram size equals 6, we can use the following code:
+When evaluating Memfree, please make sure that the Redis has been started. For example, if we want to evaluate Memfree with $n$-gram size equals 6, we can use the following command:
 ```bash
 cd data-portraits
 python easy_redis.py --shutdown
@@ -88,16 +88,20 @@ Besides the takedown methods provided in the code, you can also add your custom 
 
 ### Evaluate Blocklisted Utility, In-Domain Utility, and MMLU
 
-7. ``--eval_zero_shot``: If true, evaluate the blocklisted and in-domain utility
-8. ``--eval_general``: If true, evaluate the MMLU score
+The main entry for evaluating the blocklisted utility, in-domain utility and MMLU is ``main.py``. To evaluate utility, we need to add the following arguments:
+
+1. ``--eval_zero_shot``: If true, evaluate the blocklisted and in-domain utility.
+2. ``--eval_general``: If true, evaluate the MMLU score.
+
+When ``--no_context`` is true, the context is not provided in the utility evaluation as well.
 
 ### Evaluate MT-Bench
-We use the [FastChat](https://github.com/lm-sys/FastChat) to compute the MT-bench score. The code is in ``eval/FastChat_new``. To run MT-Bench, use the following code
-``bash
+We use the [FastChat](https://github.com/lm-sys/FastChat) to compute the MT-bench score. The code is in ``eval/FastChat_new``. To run MT-Bench, use the following command:
+```bash
 cd eval/FastChat_new/fastchat/llm_judge
 
 python gen_model_answer.py --model-path your/path/to/the/model --model-id llama2-7b-chat-hf_none --intervention none
-``
+```
 
 You can specify the intervention type following ``--intervention``
 
@@ -105,7 +109,7 @@ After having the model's answer, we need to run ``python gen_judgment.py --model
 
 ## Evaluate efficiency
 
-The main function for evaluating the efficiency is ``main_efficiency.py``. The key difference between ``main_efficiency.py`` and ``main.py`` is in ``main_efficiency.py`` we set ``max_new_tokens=min_new_toknes=200`` for fair comparison. For example, to test the efficiency of top-k perturbation, we can use the following codes:
+The main function for evaluating the efficiency is ``main_efficiency.py``. The key difference between ``main_efficiency.py`` and ``main.py`` is in ``main_efficiency.py`` we set ``max_new_tokens=min_new_toknes=200`` for fair comparison. For example, to test the efficiency of top-k perturbation, we can use the following command:
 ```bash
 python main_efficiency.py --model_name llama2-7b-chat-hf --num_test 1000 --context_len 200 --completion_len 200 --datatype newsqa --intervention top_k --std 3
 ```
