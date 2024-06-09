@@ -2,7 +2,7 @@
 
 This repository provides an original implementation of *Evaluating Copyright Takedown Methods for Language Models* by Boyi Wei*, Weijia Shi*, Yangsibo Huang*, Noah A. Smith, Chiyuan Zhang, Luck Zettlemoyer, Kai Li and Peter Henderson.
 
-<img width="450" alt="image" src="https://github.com/ruyimarone/data-portraits/assets/10734779/f3fec35c-9879-46b0-a4aa-e264dd06bf01">
+<img alt="image" src="assets/main.png">
 
 
 ## Content
