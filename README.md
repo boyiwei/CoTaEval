@@ -88,7 +88,7 @@ When evaluating R-CAD, we need to specify ``--intervention`` as ``cad``, and spe
 
 #### Unlearning
 
-For unlearning methods, we use the framework provided in [TOFU](https://github.com/locuslab/tofu). When perform unlearning, we need to use our dataset as [forget set](https://huggingface.co/datasets/boyiwei/CoTaEval/blob/main/newsqa_forget_set.json) and [retain set](https://huggingface.co/datasets/boyiwei/CoTaEval/blob/main/newsqa_retain_set.json). After having the unlearned the model, we can evaluate their performance following the procedure above, with ``--intervention none``.
+For unlearning methods, we use the framework provided in [TOFU](https://github.com/locuslab/tofu). When perform unlearning, we need to use our dataset as [forget set](https://huggingface.co/datasets/boyiwei/CoTaEval/blob/main/newsqa_forget_set.json) and [retain set](https://huggingface.co/datasets/boyiwei/CoTaEval/blob/main/newsqa_retain_set.json). After having the unlearned the model, we can evaluate their performance following the procedure above, with ``--intervention none``. We also provide 4 unlearned model checkpoints in huggingface ready for evaluation, including [Gradient Ascent ($\mathrm{lr}=1.5\times 10^{6}, \mathrm{epoch}=1$)](https://huggingface.co/boyiwei/llama2-7b_chat_newsqa_GA_1.5e-6_1), [Gradient Difference ($\mathrm{lr}=3\times 10^{6}, \mathrm{epoch}=1$)](https://huggingface.co/boyiwei/llama2-7b_chat_newsqa_GD_3e-6_1), [KL Minimization ($\mathrm{lr}=2\times 10^{6}, \mathrm{epoch}=1$)](https://huggingface.co/boyiwei/llama2-7b_chat_newsqa_KL_2e-6_1), and [Preference Optimization ($\mathrm{lr}=5\times 10^{5}, \mathrm{epoch}=4$)](https://huggingface.co/boyiwei/llama2-7b_chat_newsqa_PO_5e-5_4).
 
 
 ### Adding custom takedown methods
