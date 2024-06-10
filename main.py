@@ -368,8 +368,8 @@ def main(args):
             results_train = eval_booksum(args, model, tokenizer, num_sampled=200, bloom_filter=bloom_filter, split='train')
             results_test = eval_booksum(args, model, tokenizer, num_sampled=200, bloom_filter=bloom_filter, split='test')
             with open(save_filepath, "a") as f:
-                print(f"{args.model_name}\t{intervention_type}\t{args.datatype}\t{args.context_len}\t{args.completion_len}\trougel_recall_booksum_train\t{results_train['rougel_recall']:.4f}", file=f, flush=True)
-                print(f"{args.model_name}\t{intervention_type}\t{args.datatype}\t{args.context_len}\t{args.completion_len}\trougel_recall_booksum_test\t{results_test['rougel_recall']:.4f}", file=f, flush=True)
+                print(f"{args.model_name}\t{intervention_type}\t{args.datatype}\t{args.context_len}\t{args.completion_len}\trougeL_recall_booksum_train\t{results_train['rougeL_recall']:.4f}", file=f, flush=True)
+                print(f"{args.model_name}\t{intervention_type}\t{args.datatype}\t{args.context_len}\t{args.completion_len}\trougeL_recall_booksum_test\t{results_test['rougeL_recall']:.4f}", file=f, flush=True)
         
     
 
