@@ -9,9 +9,9 @@ import argparse
 def process_sentence(sentence):
     # Convert to lower case
     sentence = sentence.lower()
-    words = sentence.split()
     translator = str.maketrans('', '', string.punctuation)
-    words = [word.translate(translator) for word in words]
+    sentence = sentence.translate(translator)
+    words = sentence.split()
     return words
 
 
