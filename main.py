@@ -299,8 +299,8 @@ def main(args):
     n = args.n
 
     if args.datatype == 'newsqa':
-        testing_chunks = pd.read_csv(f'eval_data/newsqa/newsqa_blocklisted_infringement.csv') #TODO(wby) in the future we need to change to different model name.
-        testing_chunks = testing_chunks.sort_values('ppl').head(num_tests)
+        testing_chunks = pd.read_csv(f'eval_data/newsqa/newsqa_blocklisted_infringement.csv')
+        testing_chunks = testing_chunks.head(num_tests)
         if "tokenized" in args.intervention:
             bloom_filter = f'newsqa_tokenized.{6*n}-{6*n}.bf'
         else:
