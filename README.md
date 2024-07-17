@@ -154,6 +154,14 @@ The data of utility and efficiency will be logged in ``res/utility_res``, where 
 ## Citing
 
 If you find our work useful, please cite our work 😊
+```
+@article{wei2024evaluating,
+  title={Evaluating Copyright Takedown Methods for Language Models},
+  author={Wei, Boyi and Shi, Weijia and Huang, Yangsibo and Smith, Noah A and Zhang, Chiyuan and Zettlemoyer, Luke and Li, Kai and Henderson, Peter},
+  journal={arXiv preprint arXiv:2406.18664},
+  year={2024}
+}
+```
 
 
 
