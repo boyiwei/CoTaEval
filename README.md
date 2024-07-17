@@ -93,7 +93,7 @@ For unlearning methods, we use the framework provided in [TOFU](https://github.c
 
 ### Adding custom takedown methods
 
-Besides the takedown methods provided in the code, you can also add your custom takedown methods and evaluate their performance. To new method, you need to add a new code block starting here](https://github.com/boyiwei/CoTaEval/blob/main/main.py#L87), where you can add a new if branch with the implementation of the new takedown methods.
+Besides the takedown methods provided in the code, you can also add your custom takedown methods and evaluate their performance. To new method, you need to add a new code block starting here](https://github.com/boyiwei/CoTaEval/blob/main/main.py#L80), where you can add a new if branch with the implementation of the new takedown methods.
 
 ## Evaluate Utility
 
